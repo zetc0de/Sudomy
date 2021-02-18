@@ -1,0 +1,23 @@
+#-Metadata----------------------------------------------------#
+#  Filename: Sudomy - Subdomain Enumeration & Analysis        #
+#-Author(s)---------------------------------------------------#
+#  Edo maland ~ @screetsec                                    #
+#-Info--------------------------------------------------------#
+#  This file is part of Sudomy project                        #
+#  Plugin httpx: Update = 2020-06-06                          #
+#-Licence-----------------------------------------------------#
+#  MIT License ~ http://opensource.org/licenses/MIT           #
+#-------------------------------------------------------------#
+
+function exec_smuggler(){
+	_smuggler = "lib/smuggler/smuggler.py"
+	
+	echo -e "\n${BOLD}[${LGREEN}+${RESET}${BOLD}]${RESET} Detecting HTTP Request Smuggling    "
+	echo -e "---------------------------------------------\n"
+
+	[[ ! -e "${OUT}/${DATE_LOG}/${DOMAIN}/smuggler" ]] \
+   	&& mkdir -p "${OUT}/${DATE_LOG}/${DOMAIN}/smuggler"||true
+
+   	rm -r ${OUT}/${DATE_LOG}/${DOMAIN}/smuggler/*.* > /dev/null 2>&1
+   	cat ${OUT}/${DATE_LOG}/${DOMAIN}/${RESULT_SUBDOMAIN} | python3 ${_smuggler} 
+}
