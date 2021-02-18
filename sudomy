@@ -11,7 +11,7 @@
 #	   	    : Parrot 				      #
 #                   : Kali Linux 			      #
 #		    : WSL Windows (10.0.17134 N/A Build 17134 #
-#		    : MacOS (Mojave)			      #
+#		    : MacOS (Big Sur)			      #
 #-Licence-----------------------------------------------------#
 #  MIT License ~ http://opensource.org/licenses/MIT           #
 #-------------------------------------------------------------#
@@ -96,6 +96,7 @@ goBanner;
  echo -e "${PADDING}${BOLD}    ${RESET} --no-probe\t Do not perform httprobe "
  echo -e "${PADDING}${BOLD}    ${RESET} --html${DPADDING} Make report output into HTML " 
  echo -e "${PADDING}${BOLD}    ${RESET} --graph${DPADDING} Network Graph Visualization" 
+ echo -e "${PADDING}${BOLD}    ${RESET} --smuggler\t HTTP Request Smuggling" 
  echo -e "\n${BOLD}Sources:${RESET}"
  echo -e "${PADDING}${YELLOW}+${RESET} Shodan${DPADDING} http://developer.shodan.io"
  echo -e "${PADDING}${YELLOW}+${RESET} VirusTotal${PADDING}\t https://www.virustotal.com"
@@ -138,12 +139,12 @@ args="${1}";
         # Target
         "-d" | "--domain")
             DOMAIN="${2}"
-             shift
-             shift
+            shift
+            shift
         ;;
         "--domain="*)
             DOMAIN="${1#*=}";
-             shift 1
+            shift 1
         ;;
         # Help
         "-h"|"--help")
@@ -210,14 +211,14 @@ args="${1}";
             shift
         ;;
 	
-	"-dp"|"--db-port")
-	   PLUGIN_DB_PORT=true
-	   shift
-	;;
+	    "-dp"|"--db-port")
+    	    PLUGIN_DB_PORT=true
+    	    shift
+    	;;
 
         "-ep"|"--extract-params")
-           PLUGIN_EXTRACT_PARAMS=true
-           shift
+            PLUGIN_EXTRACT_PARAMS=true
+            shift
         ;;
 
 
@@ -247,8 +248,8 @@ args="${1}";
 
         "-o"|"--outfile")
             DESTINATION=true
-	    OUTFILE=$2
-	    shift
+	        OUTFILE=$2
+	        shift
             shift
         ;;
 
@@ -258,7 +259,7 @@ args="${1}";
             shift
         ;;
 	
-	"--slack")
+	   "--slack")
             SLACK=true
             shift
         ;;
@@ -275,10 +276,16 @@ args="${1}";
             shift
         ;;  
 
-	"--graph")
-	    PLUGIN_NGRAPH=true
-	    shift
-	;;
+	    "--graph")
+    	    PLUGIN_NGRAPH=true
+    	    shift
+	    ;;
+
+        "--smuggler")
+            PLUGIN_SMUGGLER=true
+            shift
+        ;;
+
 
         "-gw"|"--gwordlist")
             PLUGIN_WORDLISTS=true
@@ -292,13 +299,13 @@ args="${1}";
             PLUGIN_STATUS_CODE=true
             PLUGIN_RESOLV_SD=true
             PLUGIN_PING_SWEEP=true
-	    PLUGIN_DB_PORT=true
-	    PLUGIN_EXTRACT_PARAMS=true
-	    PLUGIN_HTTPX=true
-	    PLUGIN_DNSPROBE=true
-	    PLUGIN_CFCHECK=true
-	    PLUGIN_NGRAPH=true
-	    PLUGIN_WORDLISTS=true
+    	    PLUGIN_DB_PORT=true
+    	    PLUGIN_EXTRACT_PARAMS=true
+    	    PLUGIN_HTTPX=true
+    	    PLUGIN_DNSPROBE=true
+    	    PLUGIN_CFCHECK=true
+    	    PLUGIN_NGRAPH=true
+    	    PLUGIN_WORDLISTS=true
             shift
         ;;        
     
@@ -1085,6 +1092,14 @@ if [[ ${PLUGIN_HTTPX} == true ]]; then
 	source ${APP_HTTPX}
 		exec_httpx
 fi
+
+
+# Plugin to detect HTTP Request Smuggling / Desync
+if [[ ${PLUGIN_SMUGGLER} == true ]]; then
+    source ${APP_SMUGGLER}
+        exec_smuggler
+fi
+
 
 # Explain about IP DB_PORT
 # Data Collecting/Scraping open port from 3rd party (Default::Shodan), For right now just using Shodan [Future::Censys,Zoomeye] 
