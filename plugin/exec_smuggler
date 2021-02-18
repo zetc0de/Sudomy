@@ -18,6 +18,9 @@ function exec_smuggler(){
 	[[ ! -e "${OUT}/${DATE_LOG}/${DOMAIN}/smuggler" ]] \
    	&& mkdir -p "${OUT}/${DATE_LOG}/${DOMAIN}/smuggler"||true
 
-   	rm -r ${OUT}/${DATE_LOG}/${DOMAIN}/smuggler/*.* > /dev/null 2>&1
+   	rm -r ${OUT}/${DATE_LOG}/${DOMAIN}/smuggler/* > /dev/null 2>&1
    	cat ${OUT}/${DATE_LOG}/${DOMAIN}/${RESULT_HTTPROBE} | python3 ${_smuggler} 
+
+   	COUNT=$(ls "${OUT}/${DATE_LOG}/${DOMAIN}/smuggler" | wc -l)
+   	echo -e  "\n${PADDING}${YELLOW}${PADDING}⍥${PADDING}${RESET}Total ${RESET}${DPADDING}\t\t[${GREEN}${COUNT}${RESET}]\n"
 }
