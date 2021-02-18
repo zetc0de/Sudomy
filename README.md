@@ -57,6 +57,7 @@
 - Generate Network Graph Visualization Subdomain & Virtualhosts
 - Report output in HTML & CSV format
 - Sending notifications to a slack channel
+- Testing for HTTP Request Smuggling / Desync Attack
 
 ## How Sudomy Works 
 How sudomy works or recon flow, when you run the best arguments to collect subdomains and analyze by doing automatic recon.
