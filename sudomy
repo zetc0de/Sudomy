@@ -138,7 +138,7 @@ args="${1}";
   case "$( echo ${args} | tr '[:upper:]' '[:lower:]' )" in
         # Target
         "-d" | "--domain")
-            DOMAIN="${2}"
+            export DOMAIN="${2}"
             shift
             shift
         ;;
@@ -358,7 +358,7 @@ fi
 ARG_PARS_LIST(){
 echo -e "\n${BOLD}[${LGREEN}+${RESET}${BOLD}]${RESET} Parsing & Sorting list Domain "
 echo -e "---------------------------------------------\n"
-DATE_LOG=$(date +%m-%d-%Y)
+export DATE_LOG=$(date +%m-%d-%Y)
 [[ ! -e "${OUT}/${DATE_LOG}/${DOMAIN}" ]] \
   && mkdir -p "${OUT}/${DATE_LOG}/${DOMAIN}"||true
         sed 's/\*\.//g' ${OUT}/*.log | grep -e "${DOMAIN}" | sort -u  > ${OUT}/${DATE_LOG}/${DOMAIN}/${RESULT_SUBDOMAIN}
