@@ -10,8 +10,8 @@
 #-------------------------------------------------------------#
 
 function exec_smuggler(){
-	_smuggler = "lib/smuggler/smuggler.py"
-	
+	_smuggler="lib/smuggler/smuggler.py"
+
 	echo -e "\n${BOLD}[${LGREEN}+${RESET}${BOLD}]${RESET} Detecting HTTP Request Smuggling    "
 	echo -e "---------------------------------------------\n"
 
@@ -19,5 +19,5 @@ function exec_smuggler(){
    	&& mkdir -p "${OUT}/${DATE_LOG}/${DOMAIN}/smuggler"||true
 
    	rm -r ${OUT}/${DATE_LOG}/${DOMAIN}/smuggler/*.* > /dev/null 2>&1
-   	cat ${OUT}/${DATE_LOG}/${DOMAIN}/${RESULT_SUBDOMAIN} | python3 ${_smuggler} 
+   	cat ${OUT}/${DATE_LOG}/${DOMAIN}/${RESULT_HTTPROBE} | python3 ${_smuggler} 
 }
